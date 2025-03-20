@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -26,4 +27,30 @@ public class UserService {
         }
         return listaDto;
     }
+
+    public boolean inserirusuario(UserDto userInserir) {
+        Optional<UserModel> usuarioExistente = repository.findByEmail(userInserir.getEmail());
+        UserModel user = new UserModel();
+        if (usuarioExistente.isPresent()) {
+            return false;
+        }
+        user.setEmail(userInserir.getEmail());
+        user.setNome(userInserir.getNome());
+        repository.save(user);
+        return true;
+    }
+
+    public boolean atualizarUsuario(UserDto userAtualizar) {
+        Optional<UserModel> usuarioExistente = repository.findByEmail(userAtualizar.getEmail());
+        UserModel user = new UserModel();
+        if (usuarioExistente.isPresent()) {
+            user.setNome(userAtualizar.getNome());
+            user.setEmail(userAtualizar.getNome());
+            repository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+
 }
