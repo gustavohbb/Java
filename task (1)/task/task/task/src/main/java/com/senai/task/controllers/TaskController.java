@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TaskController {
+    /*
     @Autowired
     private TaskService service;
 
@@ -32,4 +33,6 @@ public class TaskController {
     public ResponseEntity<Object> excluirTask(@PathVariable Long id) {
         return;
     }
+
+ */
 }

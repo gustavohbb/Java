@@ -1,5 +1,6 @@
 package com.senai.task.models;
 
+import com.senai.task.dtos.Status;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -17,7 +18,7 @@ public class TaskModel {
     @Column(nullable = false)
     private Date agendamento;
     @Column(nullable = false)
-    private int status;
+    private Status status;
     @ManyToOne()
     @JoinColumn(name = "id_usuario", referencedColumnName = "email")
     private UserModel usuario;
@@ -54,11 +55,11 @@ public class TaskModel {
         this.agendamento = agendamento;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

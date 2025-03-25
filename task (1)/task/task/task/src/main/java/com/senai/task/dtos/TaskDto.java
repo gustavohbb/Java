@@ -1,9 +1,7 @@
 package com.senai.task.dtos;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
-import javax.xml.transform.sax.SAXResult;
 import java.util.Date;
 
 public class TaskDto {
@@ -13,7 +11,7 @@ public class TaskDto {
     private  String descricao;
     @NotBlank
     private Date agendamento;
-    private int status;
+    private Status status;
     @NotBlank
     private  String email;
 
@@ -41,11 +39,11 @@ public class TaskDto {
         this.agendamento = agendamento;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
