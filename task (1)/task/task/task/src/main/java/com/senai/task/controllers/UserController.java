@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
 public class UserController {
+
     @Autowired
     private UserService service;
 
-    @GetMapping("/userr")
+    @GetMapping("/user")
     public ResponseEntity<List<UserDto>> obterUsuarios() {
         return ResponseEntity.ok().body(service.obterUsuarios());
     }
