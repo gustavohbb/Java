@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface TaskRepository extends JpaRepository<TaskModel, Long> {
-    Optional<List<TaskModel>> findByEmail(String emai);
+    Optional<List<TaskModel>> findByEmail(UserModel email);
 }

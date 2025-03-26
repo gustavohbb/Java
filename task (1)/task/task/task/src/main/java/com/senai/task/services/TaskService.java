@@ -7,7 +7,6 @@ import com.senai.task.models.UserModel;
 import com.senai.task.repositories.TaskRepository;
 import com.senai.task.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,12 +16,13 @@ import java.util.Optional;
 public class TaskService {
     @Autowired
     TaskRepository taskRepository;
+    @Autowired
     UserRepository userRepository;
 
     public List<TaskDto> obterTasks() {
         List<TaskModel> tasks = new ArrayList<>();
         List<TaskDto> tasksDto = new ArrayList<>();
-        taskRepository.findAll();
+        tasks = taskRepository.findAll();
         for (TaskModel task : tasks) {
             TaskDto taskTranferir = new TaskDto();
             taskTranferir.setNome(task.getNome());
@@ -37,12 +37,14 @@ public class TaskService {
     public MensagemDto criarTask(TaskDto task) {
         MensagemDto mensagemDto = new MensagemDto();
         Optional<UserModel> usuarioExistente = userRepository.findByEmail(task.getEmail());
-        Optional<List<TaskModel>> taskExiste = taskRepository.findByEmail(task.getEmail());
+        UserModel userTask = new UserModel();
+        userTask = usuarioExistente.get();
+        Optional<List<TaskModel>> taskExiste = taskRepository.findByEmail(userTask);
         if (usuarioExistente.isPresent()) {
             if (taskExiste.isPresent()) {
                 List<TaskModel> tasks = taskExiste.get();
                 for (TaskModel tasksUsuario : tasks) {
-                    if (tasksUsuario.getAgendamento().equals(task.getAgendamento())) {
+                    if (tasksUsuario.getAgendamento().compareTo(task.getAgendamento()) == 0) {
                         mensagemDto.setMensagem("Usuário já possui agenda para a data informada");
                         mensagemDto.setSucesso(false);
                         return mensagemDto;
@@ -75,6 +77,7 @@ public class TaskService {
                 mensagemDto.setMensagem("tarefa atualizada com sucesso");
                 mensagemDto.setSucesso(true);
                 TaskModel taskAtualizada = new TaskModel();
+                taskAtualizada.setId(taskAtualizada.getId());
                 taskAtualizada.setNome(taskAtualizar.getNome());
                 taskAtualizada.setDescricao(taskAtualizar.getDescricao());
                 taskAtualizada.setAgendamento(taskAtualizar.getAgendamento());

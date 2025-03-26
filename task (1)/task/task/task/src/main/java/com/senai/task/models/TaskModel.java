@@ -21,7 +21,7 @@ public class TaskModel {
     private Status status;
     @ManyToOne()
     @JoinColumn(name = "id_usuario", referencedColumnName = "email")
-    private UserModel usuario;
+    private UserModel email;
 
     public Long getId() {
         return id;
@@ -64,10 +64,10 @@ public class TaskModel {
     }
 
     public UserModel getUsuario() {
-        return usuario;
+        return email;
     }
 
     public void setUsuario(UserModel usuario) {
-        this.usuario = usuario;
+        this.email = usuario;
     }
 }

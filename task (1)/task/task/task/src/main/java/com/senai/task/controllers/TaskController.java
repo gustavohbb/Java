@@ -24,7 +24,7 @@ public class TaskController {
         if (tasks.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(tasks);
         }
-        return ResponseEntity.ok().body(service.obterTasks());
+        return ResponseEntity.ok().body(tasks);
     }
 
     @PostMapping("/task")
