@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class TaskService {
     @Autowired
@@ -71,29 +72,30 @@ public class TaskService {
         MensagemDto mensagemDto = new MensagemDto();
         Optional<UserModel> usuarioExistente = userRepository.findByEmail(taskAtualizar.getEmail());
         Optional<TaskModel> taskExiste = taskRepository.findById(taskAtualizar.getId());
-        if (usuarioExistente.isPresent()) {
-            if (taskExiste.isPresent()) {
-                TaskModel task = taskExiste.get();
-                mensagemDto.setMensagem("tarefa atualizada com sucesso");
-                mensagemDto.setSucesso(true);
-                TaskModel taskAtualizada = new TaskModel();
-                taskAtualizada.setId(taskAtualizada.getId());
-                taskAtualizada.setNome(taskAtualizar.getNome());
-                taskAtualizada.setDescricao(taskAtualizar.getDescricao());
-                taskAtualizada.setAgendamento(taskAtualizar.getAgendamento());
-                taskAtualizada.setStatus(taskAtualizar.getStatus());
-                taskAtualizada.setUsuario(usuarioExistente.get());
-                taskRepository.save(taskAtualizada);
-                return mensagemDto;
-            }
+        if (usuarioExistente.isEmpty()) {
+            mensagemDto.setMensagem("Usuário da tarefa não encontrado");
+            mensagemDto.setSucesso(false);
+            return mensagemDto;
+        }
+        if (taskExiste.isEmpty()) {
             mensagemDto.setMensagem("Tarefa não encontrada");
             mensagemDto.setSucesso(false);
             return mensagemDto;
         }
-        mensagemDto.setMensagem("Usuário da tarefa não encontrado");
-        mensagemDto.setSucesso(false);
+        TaskModel task = taskExiste.get();
+        task.setNome(taskAtualizar.getNome());
+        task.setDescricao(taskAtualizar.getDescricao());
+        task.setAgendamento(taskAtualizar.getAgendamento());
+        task.setStatus(taskAtualizar.getStatus());
+        task.setUsuario(usuarioExistente.get());
+
+        taskRepository.save(task);
+
+        mensagemDto.setMensagem("Tarefa atualizada com sucesso");
+        mensagemDto.setSucesso(true);
         return mensagemDto;
     }
+
 
     public MensagemDto deletarTask(Long taskId) {
         Optional<TaskModel> taskDeletar = taskRepository.findById(taskId);

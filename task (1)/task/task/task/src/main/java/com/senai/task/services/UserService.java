@@ -51,8 +51,9 @@ public class UserService {
         UserModel user = new UserModel();
         MensagemDto mensagemDto = new MensagemDto();
         if (usuarioExistente.isPresent()) {
+            user = usuarioExistente.get();
             user.setNome(userAtualizar.getNome());
-            user.setEmail(userAtualizar.getNome());
+            user.setEmail(userAtualizar.getEmail());
             repository.save(user);
             mensagemDto.setMensagem("Usuario atualizado");
             mensagemDto.setSucesso(true);

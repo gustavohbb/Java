@@ -7,8 +7,11 @@ import java.util.Date;
 
 public class TaskDto {
     private Long id;
+    @NotBlank
     private String nome;
+    @NotBlank
     private  String descricao;
+    @NotBlank
     private Date agendamento;
     private Status status;
     @NotBlank
